@@ -1,5 +1,5 @@
 import pytest
-from   entry_points_txt import EntryPoint, Error, loads
+from   entry_points_txt import EntryPoint, ParseError, loads
 
 @pytest.mark.parametrize('txt,eps', [
     ('', {}),
@@ -131,6 +131,6 @@ def test_loads(txt, eps):
     ),
 ])
 def test_loads_error(txt, errmsg):
-    with pytest.raises(Error) as excinfo:
+    with pytest.raises(ParseError) as excinfo:
         loads(txt)
     assert str(excinfo.value) == errmsg

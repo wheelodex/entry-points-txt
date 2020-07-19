@@ -61,7 +61,13 @@ from   entry_points_txt import EntryPoint, ParseError, loads
         'foo = bar:baz[quux,glarch]\n',
         {
             "console_scripts": {
-                "foo": EntryPoint('console_scripts', 'foo', 'bar', 'baz', ('quux', 'glarch'))
+                "foo": EntryPoint(
+                    'console_scripts',
+                    'foo',
+                    'bar',
+                    'baz',
+                    ('quux', 'glarch'),
+                )
             },
         },
     ),
@@ -71,20 +77,26 @@ from   entry_points_txt import EntryPoint, ParseError, loads
         'foo = bar : baz [ quux , glarch ] \n',
         {
             "console_scripts": {
-                "foo": EntryPoint('console_scripts', 'foo', 'bar', 'baz', ('quux', 'glarch'))
+                "foo": EntryPoint(
+                    'console_scripts',
+                    'foo',
+                    'bar',
+                    'baz',
+                    ('quux', 'glarch'),
+                )
             },
         },
     ),
 
     (
         '[console_scripts]\n'
-        'foo = bar:baz\n',
+        'foo = bar:baz\n'
         'apple = red:delicious\n'
         '[glarch.quux]\n'
         'thing-of-things = one.two\n',
         {
             "console_scripts": {
-                "foo": EntryPoint('console_scripts', 'foo', 'bar', 'baz', ())
+                "foo": EntryPoint('console_scripts', 'foo', 'bar', 'baz', ()),
                 "apple": EntryPoint(
                     'console_scripts',
                     'apple',
@@ -107,7 +119,7 @@ from   entry_points_txt import EntryPoint, ParseError, loads
 
     (
         '[console_scripts]\n'
-        'foo = bar:baz\n',
+        'foo = bar:baz\n'
         ';apple = red:delicious\n'
         '[glarch.quux]\n'
         '#thing-of-things = one.two\n',

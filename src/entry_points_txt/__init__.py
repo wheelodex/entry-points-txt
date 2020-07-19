@@ -45,7 +45,7 @@ GROUP_RGX = re.compile(r'\w+(?:\.\w+)*')
 EXTRA_RGX = re.compile(r'[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?')
 
 def load(fp: IO[str]) -> EntryPointSet:
-    eps = {}
+    eps: EntryPointSet = {}
     group = None
     for line in fp:
         line = line.strip()
@@ -71,6 +71,7 @@ def load(fp: IO[str]) -> EntryPointSet:
             if not name:
                 raise ParseError('Empty entry point name')
             pre_bracket, bracket, post_bracket = spec.partition('[')
+            objname: Optional[str]
             module, colon, objname = pre_bracket.strip().partition(':')
             module = module.strip()
             if not module:
@@ -97,13 +98,14 @@ def load(fp: IO[str]) -> EntryPointSet:
                         raise ParseError(f'Invalid extra: {e!r}')
             else:
                 extras = ()
-            eps.setdefaut(group, {})[name] = EntryPoint(
+            eps.setdefault(group, {})[name] = EntryPoint(
                 group  = group,
                 name   = name,
                 module = module,
                 object = objname,
                 extras = extras,
             )
+    return eps
 
 def loads(s: str) -> EntryPointSet:
     return load(StringIO(s))

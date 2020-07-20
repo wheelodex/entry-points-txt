@@ -34,13 +34,24 @@ import re
 from   typing    import Any, Dict, IO, Iterable, NamedTuple, Optional, Tuple
 
 class EntryPoint(NamedTuple):
+    """ A representation of an entry point as a namedtuple. """
+
+    #: The name of the entry point group (e.g., ``"console_scripts"``)
     group:  str
+    #: The name of the entry point
     name:   str
+    #: The module portion of the object reference (the part before the colon)
     module: str
+    #: The object/attribute portion of the object reference (the part after the
+    #: colon), or `None` if not specified
     object: Optional[str]
+    #: Extras required for the entry point
     extras: Tuple[str, ...]
 
     def load(self) -> Any:
+        """
+        Returns the object referred to by the entry point's object reference
+        """
         obj = import_module(self.module)
         if self.object is not None:
             for attr in self.object.split('.'):
@@ -48,6 +59,11 @@ class EntryPoint(NamedTuple):
         return obj
 
     def to_line(self) -> str:
+        """
+        Returns the representation of the entry point as a line in
+        :file:`entry_points.txt`, i.e., a line of the form ``name =
+        module:object [extras]``
+        """
         s = f'{self.name} = {self.module}'
         if self.object is not None:
             s += f':{self.object}'
@@ -62,6 +78,56 @@ GROUP_RGX = re.compile(r'\w+(?:\.\w+)*')
 EXTRA_RGX = re.compile(r'[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?')
 
 def load(fp: IO[str]) -> EntryPointSet:
+    """
+    Parse a file-like object as an :file:`entry_points.txt`-format file and
+    return the results.  The parsed entry points are returned in a `dict`
+    mapping each group name to a `dict` mapping each entry point name to an
+    `EntryPoint` object.
+
+    For example, the following input:
+
+    .. code-block:: ini
+
+        [console_scripts]
+        foo = package.__main__:main
+        bar = package.cli:klass.attr
+
+        [thingy.extension]
+        quux = package.thingy [xtr]
+
+    would be parsed as:
+
+    .. code-block:: python
+
+        {
+            "console_scripts": {
+                "foo": EntryPoint(
+                    group="console_scripts",
+                    name="foo",
+                    module="package.__main__",
+                    object="main",
+                    extras=(),
+                ),
+                "bar": EntryPoint(
+                    group="console_scripts",
+                    name="bar",
+                    module="package.cli",
+                    object="klass.attr",
+                    extras=(),
+                ),
+            },
+            "thingy.extension": {
+                "quux": EntryPoint(
+                    group="thingy.extension",
+                    name="quux",
+                    module="package.thingy",
+                    object=None,
+                    extras=("xtr",),
+                ),
+            },
+        }
+    """
+
     eps: EntryPointSet = {}
     group = None
     for line in fp:
@@ -129,12 +195,23 @@ def load(fp: IO[str]) -> EntryPointSet:
     return eps
 
 def loads(s: str) -> EntryPointSet:
+    """ Like `load()`, but reads from a string instead of a filehandle """
     return load(StringIO(s))
 
 def dump(eps: EntryPointSet, fp: IO[str]) -> None:
+    """
+    Write a collection of entry points (in the same structure as returned by
+    `load()`) to a file-like object in :file:`entry_points.txt` format.  A
+    `ValueError` is raised and nothing is written if the group or name key
+    under which an `EntryPoint` is located does not match its ``group`` or
+    ``name`` attribute.
+    """
     print(dumps(eps), file=fp, end='')
 
 def dumps(eps: EntryPointSet) -> str:
+    """
+    Like `dump()`, but returns a string instead of writing to a filehandle
+    """
     s = ''
     first = True
     for group, items in eps.items():
@@ -160,16 +237,29 @@ def dumps(eps: EntryPointSet) -> str:
     return s
 
 def dump_list(eps: Iterable[EntryPoint], fp: IO[str]) -> None:
+    """
+    Write an iterable of entry points to a file-like object in
+    :file:`entry_points.txt` format.  If two or more entry points have the same
+    group & name, only the last one will be output.
+    """
     print(dumps_list(eps), file=fp, end='')
 
 def dumps_list(eps: Iterable[EntryPoint]) -> str:
+    """
+    Like `dump_list()`, but returns a string instead of writing to a filehandle
+    """
     epset: EntryPointSet = {}
     for ep in eps:
         epset.setdefault(ep.group, {})[ep.name] = ep
     return dumps(epset)
 
 def _is_dotted_id(s: str) -> bool:
+    """
+    Tests whether the given string is a valid dotted sequence of Python
+    identifiers
+    """
     return all(p.isidentifier() and not iskeyword(p) for p in s.split('.'))
 
 class ParseError(ValueError):
+    """ Exception raised by `load()` or `loads()` when given invalid input """
     pass

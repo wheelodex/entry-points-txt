@@ -120,10 +120,11 @@ Like ``load()``, but reads from a string instead of a filehandle
 
     entry_points_txt.dump(eps: Dict[str, Dict[str, EntryPoint]], fp: IO[str]) -> None
 
-Write a collection of entry points (in the same format as returned by
-``load()``) to a file-like object.  A ``ValueError`` is raised and nothing is
-written if the group or name key under which an ``EntryPoint`` is located does
-not match its ``group`` or ``name`` attribute.
+Write a collection of entry points (in the same structure as returned by
+``load()``) to a file-like object in ``entry_points.txt`` format.  A
+``ValueError`` is raised and nothing is written if the group or name key under
+which an ``EntryPoint`` is located does not match its ``group`` or ``name``
+attribute.
 
 ``dumps()``
 -----------
@@ -141,8 +142,9 @@ Like ``dump()``, but returns a string instead of writing to a filehandle
 
     entry_points_txt.dump_list(eps: Iterable[EntryPoint], fp: IO[str]) -> None
 
-Write an iterable of entry points to a file-like object.  If two or more entry
-points have the same group & name, only the last one will be output.
+Write an iterable of entry points to a file-like object in ``entry_points.txt``
+format.  If two or more entry points have the same group & name, only the last
+one will be output.
 
 ``dumps_list()``
 ----------------

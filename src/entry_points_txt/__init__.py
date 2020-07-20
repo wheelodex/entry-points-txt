@@ -98,10 +98,14 @@ def load(fp: IO[str]) -> EntryPointSet:
                     raise ParseError('Extras missing closing bracket')
                 if trail.strip():
                     raise ParseError('Trailing characters after extras')
-                extras = tuple(e.strip() for e in extrastr.split(','))
-                for e in extras:
-                    if not EXTRA_RGX.fullmatch(e):
-                        raise ParseError(f'Invalid extra: {e!r}')
+                extrastr = extrastr.strip()
+                if extrastr:
+                    extras = tuple(e.strip() for e in extrastr.split(','))
+                    for e in extras:
+                        if not EXTRA_RGX.fullmatch(e):
+                            raise ParseError(f'Invalid extra: {e!r}')
+                else:
+                    extras = ()
             else:
                 extras = ()
             eps.setdefault(group, {})[name] = EntryPoint(

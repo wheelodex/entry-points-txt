@@ -1,6 +1,12 @@
 """
 Read & write entry_points.txt files
 
+``entry-points-txt`` provides functions for reading & writing
+``entry_points.txt`` files according to `the spec`_.  That is the one thing it
+does, and it endeavors to do it well.
+
+.. _the spec: https://packaging.python.org/specifications/entry-points/
+
 Visit <https://github.com/jwodder/entry-points-txt> for more information.
 """
 
@@ -129,8 +135,5 @@ def dumps_list(eps: Iterable[EntryPoint]) -> str:
 def _is_dotted_id(s: str) -> bool:
     return all(p.isidentifier() and not iskeyword(p) for p in s.split('.'))
 
-class Error(Exception):
-    pass
-
-class ParseError(Error, ValueError):
+class ParseError(ValueError):
     pass

@@ -181,6 +181,52 @@ from   entry_points_txt import EntryPoint, ParseError, loads
             },
         },
     ),
+
+    (
+        '[console_scripts]\n'
+        'foo = bar:baz\n'
+        '\n'
+        '[console_scripts]\n'
+        'apple = red:delicious\n',
+        {
+            "console_scripts": {
+                "foo": EntryPoint('console_scripts', 'foo', 'bar', 'baz', ()),
+                "apple": EntryPoint(
+                    'console_scripts',
+                    'apple',
+                    'red',
+                    'delicious',
+                    (),
+                ),
+            },
+        },
+    ),
+
+    (
+        '[console_scripts]\n'
+        'foo = bar:baz\n'
+        'foo = quux\n',
+        {
+            "console_scripts": {
+                "foo": EntryPoint('console_scripts', 'foo', 'quux', None, ()),
+            },
+        },
+    ),
+
+    (
+        '[console_scripts]\n'
+        'foo = bar:baz\n'
+        '[thingy]\n'
+        'foo = quux\n',
+        {
+            "console_scripts": {
+                "foo": EntryPoint('console_scripts', 'foo', 'bar', 'baz', ()),
+            },
+            "thingy": {
+                "foo": EntryPoint('thingy', 'foo', 'quux', None, ()),
+            },
+        },
+    ),
 ])
 def test_loads(txt, eps):
     assert loads(txt) == eps

@@ -34,6 +34,9 @@ Installation
 API
 ===
 
+``EntryPoint``
+--------------
+
 .. code:: python
 
     class EntryPoint(NamedTuple)
@@ -64,6 +67,9 @@ following attributes and methods:
    Returns the representation of the entry point as a line in
    ``entry_points.txt``, i.e., a line of the form ``name = module:object
    [extras]``
+
+``load()``
+----------
 
 .. code:: python
 
@@ -98,11 +104,17 @@ would be parsed as:
         },
     }
 
+``loads()``
+-----------
+
 .. code:: python
 
     entry_points_txt.loads(s: str) -> Dict[str, Dict[str, EntryPoint]]
 
 Like ``load()``, but reads from a string instead of a filehandle
+
+``dump()``
+----------
 
 .. code:: python
 
@@ -111,11 +123,17 @@ Like ``load()``, but reads from a string instead of a filehandle
 Write a collection of entry points (in the same format as returned by
 ``load()``) to a file-like object
 
+``dumps()``
+-----------
+
 .. code:: python
 
     entry_points_txt.dumps(eps: Dict[str, Dict[str, EntryPoint]]) -> str
 
 Like ``dump()``, but returns a string instead of writing to a filehandle
+
+``dump_list()``
+---------------
 
 .. code:: python
 
@@ -123,11 +141,17 @@ Like ``dump()``, but returns a string instead of writing to a filehandle
 
 Write an iterable of entry points to a file-like object
 
+``dumps_list()``
+----------------
+
 .. code:: python
 
     entry_points_txt.dumps_list(eps: Iterable[EntryPoint]) -> str
 
 Like ``dump_list()``, but returns a string instead of writing to a filehandle
+
+``ParseError``
+--------------
 
 .. code:: python
 

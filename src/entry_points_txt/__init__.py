@@ -121,12 +121,32 @@ def loads(s: str) -> EntryPointSet:
     return load(StringIO(s))
 
 def dump(eps: EntryPointSet, fp: IO[str]) -> None:
-    raise NotImplementedError
+    print(dumps(eps), file=fp, end='')
 
 def dumps(eps: EntryPointSet) -> str:
-    fp = StringIO()
-    dump(eps, fp)
-    return fp.getvalue()
+    s = ''
+    first = True
+    for group, items in eps.items():
+        if not items:
+            continue
+        if first:
+            first = False
+        else:
+            s += '\n'
+        s += f'[{group}]\n'
+        for name, ep in items.items():
+            if ep.group != group:
+                raise ValueError(
+                    f"Group mismatch: entry point with group {ep.group!r}"
+                    f" placed under {group!r} dict"
+                )
+            if ep.name != name:
+                raise ValueError(
+                    f"Name mismatch: entry point with name {ep.name!r} placed"
+                    f" under key {name!r}"
+                )
+            s += ep.to_line() + '\n'
+    return s
 
 def dump_list(eps: Iterable[EntryPoint], fp: IO[str]) -> None:
     raise NotImplementedError

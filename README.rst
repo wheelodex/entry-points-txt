@@ -121,7 +121,9 @@ Like ``load()``, but reads from a string instead of a filehandle
     entry_points_txt.dump(eps: Dict[str, Dict[str, EntryPoint]], fp: IO[str]) -> None
 
 Write a collection of entry points (in the same format as returned by
-``load()``) to a file-like object
+``load()``) to a file-like object.  A ``ValueError`` is raised and nothing is
+written if the group or name key under which an ``EntryPoint`` is located does
+not match its ``group`` or ``name`` attribute.
 
 ``dumps()``
 -----------

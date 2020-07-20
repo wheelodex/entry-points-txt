@@ -1,7 +1,7 @@
-.. image:: http://www.repostatus.org/badges/latest/wip.svg
-    :target: http://www.repostatus.org/#wip
-    :alt: Project Status: WIP — Initial development is in progress, but there
-          has not yet been a stable, usable release suitable for the public.
+.. image:: http://www.repostatus.org/badges/latest/active.svg
+    :target: http://www.repostatus.org/#active
+    :alt: Project Status: Active — The project has reached a stable, usable
+          state and is being actively developed.
 
 .. image:: https://travis-ci.com/jwodder/entry-points-txt.svg?branch=master
     :target: https://travis-ci.com/jwodder/entry-points-txt
@@ -9,11 +9,15 @@
 .. image:: https://codecov.io/gh/jwodder/entry-points-txt/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/jwodder/entry-points-txt
 
+.. image:: https://img.shields.io/pypi/pyversions/entry-points-txt.svg
+    :target: https://pypi.org/project/entry-points-txt/
+
 .. image:: https://img.shields.io/github/license/jwodder/entry-points-txt.svg
     :target: https://opensource.org/licenses/MIT
     :alt: MIT License
 
 `GitHub <https://github.com/jwodder/entry-points-txt>`_
+| `PyPI <https://pypi.org/project/entry-points-txt/>`_
 | `Issues <https://github.com/jwodder/entry-points-txt/issues>`_
 
 ``entry-points-txt`` provides functions for reading & writing
@@ -28,7 +32,7 @@ Installation
 <https://pip.pypa.io>`_ for Python 3 (You have pip, right?) to install
 ``entry-points-txt``::
 
-    python3 -m pip install git+https://github.com/jwodder/entry-points-txt.git
+    python3 -m pip install entry-points-txt
 
 
 API

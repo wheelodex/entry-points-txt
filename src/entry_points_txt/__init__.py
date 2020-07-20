@@ -16,6 +16,17 @@ __author_email__ = 'entry-points-txt@varonathe.org'
 __license__      = 'MIT'
 __url__          = 'https://github.com/jwodder/entry-points-txt'
 
+__all__ = [
+    'EntryPoint',
+    'ParseError',
+    'dump',
+    'dump_list',
+    'dumps',
+    'dumps_list',
+    'load',
+    'loads',
+]
+
 from   importlib import import_module
 from   io        import StringIO
 from   keyword   import iskeyword

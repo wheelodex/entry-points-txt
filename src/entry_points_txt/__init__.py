@@ -149,12 +149,13 @@ def dumps(eps: EntryPointSet) -> str:
     return s
 
 def dump_list(eps: Iterable[EntryPoint], fp: IO[str]) -> None:
-    raise NotImplementedError
+    print(dumps_list(eps), file=fp, end='')
 
 def dumps_list(eps: Iterable[EntryPoint]) -> str:
-    fp = StringIO()
-    dump_list(eps, fp)
-    return fp.getvalue()
+    epset: EntryPointSet = {}
+    for ep in eps:
+        epset.setdefault(ep.group, {})[ep.name] = ep
+    return dumps(epset)
 
 def _is_dotted_id(s: str) -> bool:
     return all(p.isidentifier() and not iskeyword(p) for p in s.split('.'))

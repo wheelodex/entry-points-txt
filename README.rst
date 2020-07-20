@@ -141,7 +141,8 @@ Like ``dump()``, but returns a string instead of writing to a filehandle
 
     entry_points_txt.dump_list(eps: Iterable[EntryPoint], fp: IO[str]) -> None
 
-Write an iterable of entry points to a file-like object
+Write an iterable of entry points to a file-like object.  If two or more entry
+points have the same group & name, only the last one will be output.
 
 ``dumps_list()``
 ----------------

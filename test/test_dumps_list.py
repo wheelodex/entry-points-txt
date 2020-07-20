@@ -1,0 +1,58 @@
+import pytest
+from   entry_points_txt import EntryPoint, dumps_list
+
+@pytest.mark.parametrize('eps,txt', [
+    ([], ''),
+    (
+        [EntryPoint("console_scripts", "foo", "bar", "baz", ())],
+        '[console_scripts]\n'
+        'foo = bar:baz\n'
+    ),
+
+    (
+        [
+            EntryPoint("console_scripts", "foo", "bar", "baz", ()),
+            EntryPoint("console_scripts", "apple", "banana", "coconut", ()),
+        ],
+        '[console_scripts]\n'
+        'foo = bar:baz\n'
+        'apple = banana:coconut\n'
+    ),
+
+    (
+        [
+            EntryPoint("glarch", "name", "module", None, ()),
+            EntryPoint("console_scripts", "foo", "bar", "baz", ()),
+            EntryPoint("console_scripts", "apple", "banana", "coconut", ()),
+        ],
+        '[glarch]\n'
+        'name = module\n'
+        '\n'
+        '[console_scripts]\n'
+        'foo = bar:baz\n'
+        'apple = banana:coconut\n'
+    ),
+
+    (
+        [
+            EntryPoint("console_scripts", "foo", "bar", "baz", ()),
+            EntryPoint("console_scripts", "foo", "quux", None, ()),
+        ],
+        '[console_scripts]\n'
+        'foo = quux\n'
+    ),
+
+    (
+        [
+            EntryPoint("console_scripts", "foo", "bar", "baz", ()),
+            EntryPoint("thingy", "foo", "quux", None, ()),
+        ],
+        '[console_scripts]\n'
+        'foo = bar:baz\n'
+        '\n'
+        '[thingy]\n'
+        'foo = quux\n'
+    ),
+])
+def test_dumps_list(eps, txt):
+    assert dumps_list(eps) == txt

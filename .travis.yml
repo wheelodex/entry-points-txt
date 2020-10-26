@@ -19,6 +19,6 @@ jobs:
 install:
     - pip install codecov tox
 script:
-    - tox -e py
+    - tox
 after_success:
     - codecov

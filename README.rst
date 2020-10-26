@@ -19,6 +19,7 @@
 `GitHub <https://github.com/jwodder/entry-points-txt>`_
 | `PyPI <https://pypi.org/project/entry-points-txt/>`_
 | `Issues <https://github.com/jwodder/entry-points-txt/issues>`_
+| `Changelog <https://github.com/jwodder/entry-points-txt/blob/master/CHANGELOG.md>`_
 
 ``entry-points-txt`` provides functions for reading & writing
 ``entry_points.txt`` files according to `the spec`_.  That is the one thing it

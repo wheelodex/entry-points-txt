@@ -1,22 +1,18 @@
-from   io               import StringIO
+from io import StringIO
 import pytest
-from   entry_points_txt import EntryPoint, dump, dumps
+from entry_points_txt import EntryPoint, dump, dumps
 
 TEST_CASES = [
-    ({}, ''),
-
-    ({"console_scripts": {}}, ''),
-
+    ({}, ""),
+    ({"console_scripts": {}}, ""),
     (
         {
             "console_scripts": {
                 "foo": EntryPoint("console_scripts", "foo", "bar", None, ()),
             }
         },
-        '[console_scripts]\n'
-        'foo = bar\n'
+        "[console_scripts]\n" "foo = bar\n",
     ),
-
     (
         {
             "console_scripts": {
@@ -30,11 +26,8 @@ TEST_CASES = [
                 ),
             }
         },
-        '[console_scripts]\n'
-        'foo = bar\n'
-        'apple = banana:coconut\n'
+        "[console_scripts]\n" "foo = bar\n" "apple = banana:coconut\n",
     ),
-
     (
         {
             "console_scripts": {
@@ -55,73 +48,61 @@ TEST_CASES = [
                     "object",
                     ("xtra",),
                 ),
-            }
+            },
         },
-        '[console_scripts]\n'
-        'foo = bar\n'
-        'apple = banana:coconut\n'
-        '\n'
-        '[some.group]\n'
-        'thingy = module:object [xtra]\n'
+        "[console_scripts]\n"
+        "foo = bar\n"
+        "apple = banana:coconut\n"
+        "\n"
+        "[some.group]\n"
+        "thingy = module:object [xtra]\n",
     ),
 ]
 
-@pytest.mark.parametrize('eps,txt', TEST_CASES)
+
+@pytest.mark.parametrize("eps,txt", TEST_CASES)
 def test_dump(eps, txt):
     fp = StringIO()
     dump(eps, fp)
     assert fp.getvalue() == txt
 
+
 def test_dump_group_mismatch():
     fp = StringIO()
     with pytest.raises(ValueError) as excinfo:
-        dump({
-            "group1": {
-                "foo": EntryPoint('group2', 'foo', 'module', None, ())
-            }
-        }, fp)
+        dump({"group1": {"foo": EntryPoint("group2", "foo", "module", None, ())}}, fp)
     assert str(excinfo.value) == (
-        "Group mismatch: entry point with group 'group2' placed under 'group1'"
-        " dict"
+        "Group mismatch: entry point with group 'group2' placed under 'group1'" " dict"
     )
-    assert fp.getvalue() == ''
+    assert fp.getvalue() == ""
+
 
 def test_dump_name_mismatch():
     fp = StringIO()
     with pytest.raises(ValueError) as excinfo:
-        dump({
-            "group1": {
-                "foo": EntryPoint('group1', 'bar', 'module', None, ())
-            }
-        }, fp)
+        dump({"group1": {"foo": EntryPoint("group1", "bar", "module", None, ())}}, fp)
     assert str(excinfo.value) == (
         "Name mismatch: entry point with name 'bar' placed under key 'foo'"
     )
-    assert fp.getvalue() == ''
+    assert fp.getvalue() == ""
 
-@pytest.mark.parametrize('eps,txt', TEST_CASES)
+
+@pytest.mark.parametrize("eps,txt", TEST_CASES)
 def test_dumps(eps, txt):
     assert dumps(eps) == txt
 
+
 def test_dumps_group_mismatch():
     with pytest.raises(ValueError) as excinfo:
-        dumps({
-            "group1": {
-                "foo": EntryPoint('group2', 'foo', 'module', None, ())
-            }
-        })
+        dumps({"group1": {"foo": EntryPoint("group2", "foo", "module", None, ())}})
     assert str(excinfo.value) == (
-        "Group mismatch: entry point with group 'group2' placed under 'group1'"
-        " dict"
+        "Group mismatch: entry point with group 'group2' placed under 'group1'" " dict"
     )
+
 
 def test_dumps_name_mismatch():
     with pytest.raises(ValueError) as excinfo:
-        dumps({
-            "group1": {
-                "foo": EntryPoint('group1', 'bar', 'module', None, ())
-            }
-        })
+        dumps({"group1": {"foo": EntryPoint("group1", "bar", "module", None, ())}})
     assert str(excinfo.value) == (
         "Name mismatch: entry point with name 'bar' placed under key 'foo'"
     )

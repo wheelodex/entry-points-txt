@@ -57,21 +57,21 @@ following attributes and methods:
    The name of the entry point
 
 ``module: str``
-   The module portion of the object reference (the part before the colon)
+   The module portion of the attribute reference (the part before the colon)
 
-``object: Optional[str]``
-   The object/attribute portion of the object reference (the part after the
+``attr: Optional[str]``
+   The attribute/object portion of the attribute reference (the part after the
    colon), or ``None`` if not specified
 
 ``extras: Tuple[str, ...]``
    Extras required for the entry point
 
 ``load() -> Any``
-   Returns the object referred to by the entry point's object reference
+   Returns the object referred to by the entry point
 
 ``to_line() -> str``
    Returns the representation of the entry point as a line in
-   ``entry_points.txt``, i.e., a line of the form ``name = module:object
+   ``entry_points.txt``, i.e., a line of the form ``name = module:attr
    [extras]``
 
 ``load()``
@@ -102,11 +102,11 @@ would be parsed as:
 
     {
         "console_scripts": {
-            "foo": EntryPoint(group="console_scripts", name="foo", module="package.__main__", object="main", extras=()),
-            "bar": EntryPoint(group="console_scripts", name="bar", module="package.cli", object="klass.attr", extras=()),
+            "foo": EntryPoint(group="console_scripts", name="foo", module="package.__main__", attr="main", extras=()),
+            "bar": EntryPoint(group="console_scripts", name="bar", module="package.cli", attr="klass.attr", extras=()),
         },
         "thingy.extension": {
-            "quux": EntryPoint(group="thingy.extension", name="quux", module="package.thingy", object=None, extras=("xtr",)),
+            "quux": EntryPoint(group="thingy.extension", name="quux", module="package.thingy", attr=None, extras=("xtr",)),
         },
     }
 

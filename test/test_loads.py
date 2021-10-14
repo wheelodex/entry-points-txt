@@ -234,19 +234,22 @@ def test_loads(txt, eps):
         ),
         ("[console_scripts]\n" "foo = bar.def:baz\n", "Invalid module name: 'bar.def'"),
         ("[console_scripts]\n" "foo = bar = baz\n", "Invalid module name: 'bar = baz'"),
-        ("[console_scripts]\n" "foo = bar:\n", "Missing object name after colon"),
+        ("[console_scripts]\n" "foo = bar:\n", "Missing attribute name after colon"),
         (
             "[console_scripts]\n" "foo = bar: [xtra]\n",
-            "Missing object name after colon",
+            "Missing attribute name after colon",
         ),
         (
             "[console_scripts]\n" "foo = bar:an object\n",
-            "Invalid object name: 'an object'",
+            "Invalid attribute name: 'an object'",
         ),
-        ("[console_scripts]\n" "foo = bar:obj.def\n", "Invalid object name: 'obj.def'"),
+        (
+            "[console_scripts]\n" "foo = bar:obj.def\n",
+            "Invalid attribute name: 'obj.def'",
+        ),
         (
             "[console_scripts]\n" "foo = bar:baz:quux\n",
-            "Invalid object name: 'baz:quux'",
+            "Invalid attribute name: 'baz:quux'",
         ),
         (
             "[console_scripts]\n" "foo = bar:baz[xtra\n" "]\n",

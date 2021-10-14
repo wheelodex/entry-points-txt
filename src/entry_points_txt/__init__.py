@@ -32,6 +32,7 @@ from io import StringIO
 from keyword import iskeyword
 import re
 from typing import Any, Dict, IO, Iterable, NamedTuple, Optional, Tuple
+from warnings import warn
 
 
 class EntryPoint(NamedTuple):
@@ -41,21 +42,36 @@ class EntryPoint(NamedTuple):
     group: str
     #: The name of the entry point
     name: str
-    #: The module portion of the object reference (the part before the colon)
+    #: The module portion of the attribute reference (the part before the
+    #: colon)
     module: str
-    #: The object/attribute portion of the object reference (the part after the
-    #: colon), or `None` if not specified
-    object: Optional[str]
+    #: The attribute/object portion of the attribute reference (the part after
+    #: the colon), or `None` if not specified
+    #:
+    #: .. versionadded:: 0.2.0
+    attr: Optional[str]
     #: Extras required for the entry point
     extras: Tuple[str, ...]
 
+    @property
+    def object(self) -> Optional[str]:
+        """
+        Alias for `attr`
+
+        .. deprecated:: 0.2.0
+            Use `attr` instead
+        """
+        warn(
+            "EntryPoint.object is deprecated.  Use EntryPoint.attr instead.",
+            DeprecationWarning,
+        )
+        return self.attr
+
     def load(self) -> Any:
-        """
-        Returns the object referred to by the entry point's object reference
-        """
+        """Returns the object referred to by the entry point"""
         obj = import_module(self.module)
-        if self.object is not None:
-            for attr in self.object.split("."):
+        if self.attr is not None:
+            for attr in self.attr.split("."):
                 obj = getattr(obj, attr)
         return obj
 
@@ -63,11 +79,11 @@ class EntryPoint(NamedTuple):
         """
         Returns the representation of the entry point as a line in
         :file:`entry_points.txt`, i.e., a line of the form ``name =
-        module:object [extras]``
+        module:attr [extras]``
         """
         s = f"{self.name} = {self.module}"
-        if self.object is not None:
-            s += f":{self.object}"
+        if self.attr is not None:
+            s += f":{self.attr}"
         if self.extras:
             s += f' [{",".join(self.extras)}]'
         return s
@@ -107,14 +123,14 @@ def load(fp: IO[str]) -> EntryPointSet:
                     group="console_scripts",
                     name="foo",
                     module="package.__main__",
-                    object="main",
+                    attr="main",
                     extras=(),
                 ),
                 "bar": EntryPoint(
                     group="console_scripts",
                     name="bar",
                     module="package.cli",
-                    object="klass.attr",
+                    attr="klass.attr",
                     extras=(),
                 ),
             },
@@ -123,7 +139,7 @@ def load(fp: IO[str]) -> EntryPointSet:
                     group="thingy.extension",
                     name="quux",
                     module="package.thingy",
-                    object=None,
+                    attr=None,
                     extras=("xtr",),
                 ),
             },
@@ -164,9 +180,9 @@ def load(fp: IO[str]) -> EntryPointSet:
             if colon:
                 objname = objname.strip()
                 if not objname:
-                    raise ParseError("Missing object name after colon")
+                    raise ParseError("Missing attribute name after colon")
                 if not _is_dotted_id(objname):
-                    raise ParseError(f"Invalid object name: {objname!r}")
+                    raise ParseError(f"Invalid attribute name: {objname!r}")
             else:
                 objname = None
             if bracket:
@@ -189,7 +205,7 @@ def load(fp: IO[str]) -> EntryPointSet:
                 group=group,
                 name=name,
                 module=module,
-                object=objname,
+                attr=objname,
                 extras=extras,
             )
     return eps

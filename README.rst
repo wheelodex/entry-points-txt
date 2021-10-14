@@ -74,16 +74,27 @@ following attributes and methods:
    ``entry_points.txt``, i.e., a line of the form ``name = module:attr
    [extras]``
 
+``EntryPointSet``
+-----------------
+
+.. code:: python
+
+    EntryPointSet = Dict[str, Dict[str, EntryPoint]]
+
+An alias for the return type of ``load()`` & ``loads()`` and the argument type
+of ``dump()`` & ``dumps()``.  Entry points are organized into a ``dict`` that
+maps group names to sub-``dict``\s that map entry point names to ``EntryPoint``
+instances.
+
 ``load()``
 ----------
 
 .. code:: python
 
-    entry_points_txt.load(fp: IO[str]) -> Dict[str, Dict[str, EntryPoint]]
+    entry_points_txt.load(fp: IO[str]) -> EntryPointSet
 
 Parse a file-like object as an ``entry_points.txt``-format file and return the
-results.  The parsed entry points are returned in a ``dict`` mapping each group
-name to a ``dict`` mapping each entry point name to an ``EntryPoint`` object.
+results.
 
 For example, the following input:
 
@@ -115,7 +126,7 @@ would be parsed as:
 
 .. code:: python
 
-    entry_points_txt.loads(s: str) -> Dict[str, Dict[str, EntryPoint]]
+    entry_points_txt.loads(s: str) -> EntryPointSet
 
 Like ``load()``, but reads from a string instead of a filehandle
 
@@ -124,20 +135,19 @@ Like ``load()``, but reads from a string instead of a filehandle
 
 .. code:: python
 
-    entry_points_txt.dump(eps: Dict[str, Dict[str, EntryPoint]], fp: IO[str]) -> None
+    entry_points_txt.dump(eps: EntryPointSet, fp: IO[str]) -> None
 
-Write a collection of entry points (in the same structure as returned by
-``load()``) to a file-like object in ``entry_points.txt`` format.  A
-``ValueError`` is raised and nothing is written if the group or name key under
-which an ``EntryPoint`` is located does not match its ``group`` or ``name``
-attribute.
+Write a collection of entry points to a file-like object in
+``entry_points.txt`` format.  A ``ValueError`` is raised and nothing is written
+if the group or name key under which an ``EntryPoint`` is located does not
+match its ``group`` or ``name`` attribute.
 
 ``dumps()``
 -----------
 
 .. code:: python
 
-    entry_points_txt.dumps(eps: Dict[str, Dict[str, EntryPoint]]) -> str
+    entry_points_txt.dumps(eps: EntryPointSet) -> str
 
 Like ``dump()``, but returns a string instead of writing to a filehandle
 

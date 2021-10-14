@@ -18,6 +18,7 @@ __url__ = "https://github.com/jwodder/entry-points-txt"
 
 __all__ = [
     "EntryPoint",
+    "EntryPointSet",
     "ParseError",
     "dump",
     "dump_list",

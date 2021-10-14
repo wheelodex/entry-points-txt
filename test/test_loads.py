@@ -1,5 +1,5 @@
 import pytest
-from entry_points_txt import EntryPoint, ParseError, loads
+from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
 
 
 @pytest.mark.parametrize(
@@ -202,7 +202,7 @@ from entry_points_txt import EntryPoint, ParseError, loads
         ),
     ],
 )
-def test_loads(txt, eps):
+def test_loads(txt: str, eps: EntryPointSet) -> None:
     assert loads(txt) == eps
 
 
@@ -263,7 +263,7 @@ def test_loads(txt, eps):
         ("[console_scripts]\n" "foo = bar:baz[foo,]\n", "Invalid extra: ''"),
     ],
 )
-def test_loads_error(txt, errmsg):
+def test_loads_error(txt: str, errmsg: str) -> None:
     with pytest.raises(ParseError) as excinfo:
         loads(txt)
     assert str(excinfo.value) == errmsg

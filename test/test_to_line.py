@@ -31,5 +31,5 @@ from entry_points_txt import EntryPoint
         ),
     ],
 )
-def test_to_line(ep, line):
+def test_to_line(ep: EntryPoint, line: str) -> None:
     assert ep.to_line() == line

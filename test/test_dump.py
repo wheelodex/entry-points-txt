@@ -1,6 +1,6 @@
 from io import StringIO
 import pytest
-from entry_points_txt import EntryPoint, dump, dumps
+from entry_points_txt import EntryPoint, EntryPointSet, dump, dumps
 
 TEST_CASES = [
     ({}, ""),
@@ -61,13 +61,13 @@ TEST_CASES = [
 
 
 @pytest.mark.parametrize("eps,txt", TEST_CASES)
-def test_dump(eps, txt):
+def test_dump(eps: EntryPointSet, txt: str) -> None:
     fp = StringIO()
     dump(eps, fp)
     assert fp.getvalue() == txt
 
 
-def test_dump_group_mismatch():
+def test_dump_group_mismatch() -> None:
     fp = StringIO()
     with pytest.raises(ValueError) as excinfo:
         dump({"group1": {"foo": EntryPoint("group2", "foo", "module", None, ())}}, fp)
@@ -77,7 +77,7 @@ def test_dump_group_mismatch():
     assert fp.getvalue() == ""
 
 
-def test_dump_name_mismatch():
+def test_dump_name_mismatch() -> None:
     fp = StringIO()
     with pytest.raises(ValueError) as excinfo:
         dump({"group1": {"foo": EntryPoint("group1", "bar", "module", None, ())}}, fp)
@@ -88,11 +88,11 @@ def test_dump_name_mismatch():
 
 
 @pytest.mark.parametrize("eps,txt", TEST_CASES)
-def test_dumps(eps, txt):
+def test_dumps(eps: EntryPointSet, txt: str) -> None:
     assert dumps(eps) == txt
 
 
-def test_dumps_group_mismatch():
+def test_dumps_group_mismatch() -> None:
     with pytest.raises(ValueError) as excinfo:
         dumps({"group1": {"foo": EntryPoint("group2", "foo", "module", None, ())}})
     assert str(excinfo.value) == (
@@ -100,7 +100,7 @@ def test_dumps_group_mismatch():
     )
 
 
-def test_dumps_name_mismatch():
+def test_dumps_name_mismatch() -> None:
     with pytest.raises(ValueError) as excinfo:
         dumps({"group1": {"foo": EntryPoint("group1", "bar", "module", None, ())}})
     assert str(excinfo.value) == (

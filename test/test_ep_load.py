@@ -1,5 +1,6 @@
 import configparser
 import email.message
+from typing import Any
 import pytest
 from entry_points_txt import EntryPoint
 
@@ -31,5 +32,5 @@ from entry_points_txt import EntryPoint
         ),
     ],
 )
-def test_ep_load(ep, obj):
+def test_ep_load(ep: EntryPoint, obj: Any) -> None:
     assert ep.load() is obj

@@ -10,7 +10,7 @@ does, and it endeavors to do it well.
 Visit <https://github.com/jwodder/entry-points-txt> for more information.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0.dev1"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "entry-points-txt@varonathe.org"
 __license__ = "MIT"

@@ -1,5 +1,5 @@
+from __future__ import annotations
 from io import StringIO
-from typing import List
 import pytest
 from entry_points_txt import EntryPoint, dump_list, dumps_list
 
@@ -47,12 +47,12 @@ TEST_CASES = [
 
 
 @pytest.mark.parametrize("eps,txt", TEST_CASES)
-def test_dump_list(eps: List[EntryPoint], txt: str) -> None:
+def test_dump_list(eps: list[EntryPoint], txt: str) -> None:
     fp = StringIO()
     dump_list(eps, fp)
     assert fp.getvalue() == txt
 
 
 @pytest.mark.parametrize("eps,txt", TEST_CASES)
-def test_dumps_list(eps: List[EntryPoint], txt: str) -> None:
+def test_dumps_list(eps: list[EntryPoint], txt: str) -> None:
     assert dumps_list(eps) == txt

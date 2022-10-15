@@ -10,6 +10,15 @@ does, and it endeavors to do it well.
 Visit <https://github.com/jwodder/entry-points-txt> for more information.
 """
 
+from __future__ import annotations
+from collections.abc import Iterable
+from importlib import import_module
+from io import StringIO
+from keyword import iskeyword
+import re
+from typing import Any, Dict, IO, NamedTuple, Optional
+from warnings import warn
+
 __version__ = "0.3.0.dev1"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "entry-points-txt@varonathe.org"
@@ -28,13 +37,6 @@ __all__ = [
     "loads",
 ]
 
-from importlib import import_module
-from io import StringIO
-from keyword import iskeyword
-import re
-from typing import Any, Dict, IO, Iterable, NamedTuple, Optional, Tuple
-from warnings import warn
-
 
 class EntryPoint(NamedTuple):
     """A representation of an entry point as a namedtuple."""
@@ -52,7 +54,7 @@ class EntryPoint(NamedTuple):
     #: .. versionadded:: 0.2.0
     attr: Optional[str]
     #: Extras required for the entry point
-    extras: Tuple[str, ...]
+    extras: tuple[str, ...]
 
     @property
     def object(self) -> Optional[str]:

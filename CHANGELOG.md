@@ -1,7 +1,7 @@
 v0.3.0 (in development)
 -----------------------
 - Drop support for Python 3.6
-- Support Python 3.11
+- Support Python 3.11 and 3.12
 
 v0.2.0 (2021-10-14)
 -------------------

@@ -7,7 +7,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
     [
         ("", {}),
         (
-            "[console_scripts]\n" "foo = bar\n",
+            "[console_scripts]\nfoo = bar\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint("console_scripts", "foo", "bar", None, ())
@@ -15,7 +15,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz\n",
+            "[console_scripts]\nfoo = bar:baz\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint("console_scripts", "foo", "bar", "baz", ())
@@ -23,7 +23,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[console_scripts]\n" "foo = bar.apple:baz.banana\n",
+            "[console_scripts]\nfoo = bar.apple:baz.banana\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint(
@@ -37,7 +37,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz[]\n",
+            "[console_scripts]\nfoo = bar:baz[]\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint("console_scripts", "foo", "bar", "baz", ()),
@@ -45,7 +45,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz[  ]\n",
+            "[console_scripts]\nfoo = bar:baz[  ]\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint("console_scripts", "foo", "bar", "baz", ()),
@@ -53,7 +53,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[console_scripts]\n" "foo = bar[quux]\n",
+            "[console_scripts]\nfoo = bar[quux]\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint(
@@ -67,7 +67,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz[quux]\n",
+            "[console_scripts]\nfoo = bar:baz[quux]\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint(
@@ -81,7 +81,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz[quux,glarch]\n",
+            "[console_scripts]\nfoo = bar:baz[quux,glarch]\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint(
@@ -95,7 +95,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            " [ console_scripts ] \n" " foo = bar : baz [ quux , glarch ] \n",
+            " [ console_scripts ] \n foo = bar : baz [ quux , glarch ] \n",
             {
                 "console_scripts": {
                     "foo": EntryPoint(
@@ -149,7 +149,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[glarch.quux]\n" "thing of things = one.two\n",
+            "[glarch.quux]\nthing of things = one.two\n",
             {
                 "glarch.quux": {
                     "thing of things": EntryPoint(
@@ -182,7 +182,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz\n" "foo = quux\n",
+            "[console_scripts]\nfoo = bar:baz\nfoo = quux\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint("console_scripts", "foo", "quux", None, ()),
@@ -190,7 +190,7 @@ from entry_points_txt import EntryPoint, EntryPointSet, ParseError, loads
             },
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz\n" "[thingy]\n" "foo = quux\n",
+            "[console_scripts]\nfoo = bar:baz\n[thingy]\nfoo = quux\n",
             {
                 "console_scripts": {
                     "foo": EntryPoint("console_scripts", "foo", "bar", "baz", ()),
@@ -210,57 +210,57 @@ def test_loads(txt: str, eps: EntryPointSet) -> None:
     "txt,errmsg",
     [
         (
-            "foo = bar:baz\n" "[console_scripts]\n",
+            "foo = bar:baz\n[console_scripts]\n",
             "Entry point line occurs before any group headers",
         ),
         (
-            "[console_scripts\n" "]\n" "foo = bar\n",
+            "[console_scripts\n]\nfoo = bar\n",
             "Group header missing closing bracket",
         ),
-        ("[]\n" "foo = bar\n", "Empty group name"),
-        ("[  ]\n" "foo = bar\n", "Empty group name"),
-        ("[group-name]\n" "foo = bar\n", "Invalid group name: 'group-name'"),
-        ("[group name]\n" "foo = bar\n", "Invalid group name: 'group name'"),
-        ("[group.]\n" "foo = bar\n", "Invalid group name: 'group.'"),
-        ("[group.*]\n" "foo = bar\n", "Invalid group name: 'group.*'"),
-        ("[console_scripts]\n" "foo bar\n", "Invalid line (no '='): 'foo bar'"),
-        ("[console_scripts]\n" " = bar\n", "Empty entry point name"),
-        ("[console_scripts]\n" "foo = \n", "Empty module name"),
-        ("[console_scripts]\n" "foo = :bar\n", "Empty module name"),
-        ("[console_scripts]\n" "foo = [xtra]\n", "Empty module name"),
+        ("[]\nfoo = bar\n", "Empty group name"),
+        ("[  ]\nfoo = bar\n", "Empty group name"),
+        ("[group-name]\nfoo = bar\n", "Invalid group name: 'group-name'"),
+        ("[group name]\nfoo = bar\n", "Invalid group name: 'group name'"),
+        ("[group.]\nfoo = bar\n", "Invalid group name: 'group.'"),
+        ("[group.*]\nfoo = bar\n", "Invalid group name: 'group.*'"),
+        ("[console_scripts]\nfoo bar\n", "Invalid line (no '='): 'foo bar'"),
+        ("[console_scripts]\n = bar\n", "Empty entry point name"),
+        ("[console_scripts]\nfoo = \n", "Empty module name"),
+        ("[console_scripts]\nfoo = :bar\n", "Empty module name"),
+        ("[console_scripts]\nfoo = [xtra]\n", "Empty module name"),
         (
-            "[console_scripts]\n" "foo = a-module:bar\n",
+            "[console_scripts]\nfoo = a-module:bar\n",
             "Invalid module name: 'a-module'",
         ),
-        ("[console_scripts]\n" "foo = bar.def:baz\n", "Invalid module name: 'bar.def'"),
-        ("[console_scripts]\n" "foo = bar = baz\n", "Invalid module name: 'bar = baz'"),
-        ("[console_scripts]\n" "foo = bar:\n", "Missing attribute name after colon"),
+        ("[console_scripts]\nfoo = bar.def:baz\n", "Invalid module name: 'bar.def'"),
+        ("[console_scripts]\nfoo = bar = baz\n", "Invalid module name: 'bar = baz'"),
+        ("[console_scripts]\nfoo = bar:\n", "Missing attribute name after colon"),
         (
-            "[console_scripts]\n" "foo = bar: [xtra]\n",
+            "[console_scripts]\nfoo = bar: [xtra]\n",
             "Missing attribute name after colon",
         ),
         (
-            "[console_scripts]\n" "foo = bar:an object\n",
+            "[console_scripts]\nfoo = bar:an object\n",
             "Invalid attribute name: 'an object'",
         ),
         (
-            "[console_scripts]\n" "foo = bar:obj.def\n",
+            "[console_scripts]\nfoo = bar:obj.def\n",
             "Invalid attribute name: 'obj.def'",
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz:quux\n",
+            "[console_scripts]\nfoo = bar:baz:quux\n",
             "Invalid attribute name: 'baz:quux'",
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz[xtra\n" "]\n",
+            "[console_scripts]\nfoo = bar:baz[xtra\n]\n",
             "Extras missing closing bracket",
         ),
         (
-            "[console_scripts]\n" "foo = bar:baz[xtra]glarch\n",
+            "[console_scripts]\nfoo = bar:baz[xtra]glarch\n",
             "Trailing characters after extras",
         ),
-        ("[console_scripts]\n" "foo = bar:baz[foo.]\n", "Invalid extra: 'foo.'"),
-        ("[console_scripts]\n" "foo = bar:baz[foo,]\n", "Invalid extra: ''"),
+        ("[console_scripts]\nfoo = bar:baz[foo.]\n", "Invalid extra: 'foo.'"),
+        ("[console_scripts]\nfoo = bar:baz[foo,]\n", "Invalid extra: ''"),
     ],
 )
 def test_loads_error(txt: str, errmsg: str) -> None:

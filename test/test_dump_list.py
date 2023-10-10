@@ -7,14 +7,14 @@ TEST_CASES = [
     ([], ""),
     (
         [EntryPoint("console_scripts", "foo", "bar", "baz", ())],
-        "[console_scripts]\n" "foo = bar:baz\n",
+        "[console_scripts]\nfoo = bar:baz\n",
     ),
     (
         [
             EntryPoint("console_scripts", "foo", "bar", "baz", ()),
             EntryPoint("console_scripts", "apple", "banana", "coconut", ()),
         ],
-        "[console_scripts]\n" "foo = bar:baz\n" "apple = banana:coconut\n",
+        "[console_scripts]\nfoo = bar:baz\napple = banana:coconut\n",
     ),
     (
         [
@@ -34,14 +34,14 @@ TEST_CASES = [
             EntryPoint("console_scripts", "foo", "bar", "baz", ()),
             EntryPoint("console_scripts", "foo", "quux", None, ()),
         ],
-        "[console_scripts]\n" "foo = quux\n",
+        "[console_scripts]\nfoo = quux\n",
     ),
     (
         [
             EntryPoint("console_scripts", "foo", "bar", "baz", ()),
             EntryPoint("thingy", "foo", "quux", None, ()),
         ],
-        "[console_scripts]\n" "foo = bar:baz\n" "\n" "[thingy]\n" "foo = quux\n",
+        "[console_scripts]\nfoo = bar:baz\n\n[thingy]\nfoo = quux\n",
     ),
 ]
 

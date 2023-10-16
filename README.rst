@@ -3,24 +3,24 @@
     :alt: Project Status: Active — The project has reached a stable, usable
           state and is being actively developed.
 
-.. image:: https://github.com/jwodder/entry-points-txt/workflows/Test/badge.svg?branch=master
-    :target: https://github.com/jwodder/entry-points-txt/actions?workflow=Test
+.. image:: https://github.com/wheelodex/entry-points-txt/workflows/Test/badge.svg?branch=master
+    :target: https://github.com/wheelodex/entry-points-txt/actions?workflow=Test
     :alt: CI Status
 
-.. image:: https://codecov.io/gh/jwodder/entry-points-txt/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/jwodder/entry-points-txt
+.. image:: https://codecov.io/gh/wheelodex/entry-points-txt/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/wheelodex/entry-points-txt
 
 .. image:: https://img.shields.io/pypi/pyversions/entry-points-txt.svg
     :target: https://pypi.org/project/entry-points-txt/
 
-.. image:: https://img.shields.io/github/license/jwodder/entry-points-txt.svg
+.. image:: https://img.shields.io/github/license/wheelodex/entry-points-txt.svg
     :target: https://opensource.org/licenses/MIT
     :alt: MIT License
 
-`GitHub <https://github.com/jwodder/entry-points-txt>`_
+`GitHub <https://github.com/wheelodex/entry-points-txt>`_
 | `PyPI <https://pypi.org/project/entry-points-txt/>`_
-| `Issues <https://github.com/jwodder/entry-points-txt/issues>`_
-| `Changelog <https://github.com/jwodder/entry-points-txt/blob/master/CHANGELOG.md>`_
+| `Issues <https://github.com/wheelodex/entry-points-txt/issues>`_
+| `Changelog <https://github.com/wheelodex/entry-points-txt/blob/master/CHANGELOG.md>`_
 
 ``entry-points-txt`` provides functions for reading & writing
 ``entry_points.txt`` files according to `the spec`_.  That is the one thing it

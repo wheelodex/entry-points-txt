@@ -7,7 +7,7 @@ does, and it endeavors to do it well.
 
 .. _the spec: https://packaging.python.org/specifications/entry-points/
 
-Visit <https://github.com/jwodder/entry-points-txt> for more information.
+Visit <https://github.com/wheelodex/entry-points-txt> for more information.
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ __version__ = "0.3.0.dev1"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "entry-points-txt@varonathe.org"
 __license__ = "MIT"
-__url__ = "https://github.com/jwodder/entry-points-txt"
+__url__ = "https://github.com/wheelodex/entry-points-txt"
 
 __all__ = [
     "EntryPoint",

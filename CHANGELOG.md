@@ -1,5 +1,5 @@
-v0.3.0 (in development)
------------------------
+v0.2.1 (2024-12-01)
+-------------------
 - Drop support for Python 3.6 and 3.7
 - Support Python 3.11, 3.12, and 3.13
 - Moved to wheelodex organization

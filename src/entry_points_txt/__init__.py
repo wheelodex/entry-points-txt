@@ -16,10 +16,10 @@ from importlib import import_module
 from io import StringIO
 from keyword import iskeyword
 import re
-from typing import Any, Dict, IO, NamedTuple, Optional
+from typing import Any, IO, NamedTuple
 from warnings import warn
 
-__version__ = "0.2.1"
+__version__ = "0.3.0.dev1"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "entry-points-txt@varonathe.org"
 __license__ = "MIT"
@@ -52,12 +52,12 @@ class EntryPoint(NamedTuple):
     #: the colon), or `None` if not specified
     #:
     #: .. versionadded:: 0.2.0
-    attr: Optional[str]
+    attr: str | None
     #: Extras required for the entry point
     extras: tuple[str, ...]
 
     @property
-    def object(self) -> Optional[str]:
+    def object(self) -> str | None:
         """
         Alias for `attr`
 
@@ -92,7 +92,7 @@ class EntryPoint(NamedTuple):
         return s
 
 
-EntryPointSet = Dict[str, Dict[str, EntryPoint]]
+EntryPointSet = dict[str, dict[str, EntryPoint]]
 
 GROUP_RGX = re.compile(r"\w+(?:\.\w+)*")
 EXTRA_RGX = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?")
@@ -173,7 +173,7 @@ def load(fp: IO[str]) -> EntryPointSet:
             if not name:
                 raise ParseError("Empty entry point name")
             pre_bracket, bracket, post_bracket = spec.partition("[")
-            objname: Optional[str]
+            objname: str | None
             module, colon, objname = pre_bracket.strip().partition(":")
             module = module.strip()
             if not module:

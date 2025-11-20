@@ -18,7 +18,6 @@ from io import StringIO
 from keyword import iskeyword
 import re
 from typing import Any, IO
-from warnings import warn
 
 __version__ = "0.3.0.dev1"
 __author__ = "John Thorvald Wodder II"
@@ -52,25 +51,9 @@ class EntryPoint:
     module: str
     #: The attribute/object portion of the attribute reference (the part after
     #: the colon), or `None` if not specified
-    #:
-    #: .. versionadded:: 0.2.0
     attr: str | None
     #: Extras required for the entry point
     extras: tuple[str, ...]
-
-    @property
-    def object(self) -> str | None:
-        """
-        Alias for `attr`
-
-        .. deprecated:: 0.2.0
-            Use `attr` instead
-        """
-        warn(
-            "EntryPoint.object is deprecated.  Use EntryPoint.attr instead.",
-            DeprecationWarning,
-        )
-        return self.attr
 
     def load(self) -> Any:
         """Returns the object referred to by the entry point"""

@@ -12,11 +12,12 @@ Visit <https://github.com/wheelodex/entry-points-txt> for more information.
 
 from __future__ import annotations
 from collections.abc import Iterable
+from dataclasses import dataclass
 from importlib import import_module
 from io import StringIO
 from keyword import iskeyword
 import re
-from typing import Any, IO, NamedTuple
+from typing import Any, IO
 from warnings import warn
 
 __version__ = "0.3.0.dev1"
@@ -38,7 +39,8 @@ __all__ = [
 ]
 
 
-class EntryPoint(NamedTuple):
+@dataclass
+class EntryPoint:
     """A representation of an entry point as a namedtuple."""
 
     #: The name of the entry point group (e.g., ``"console_scripts"``)

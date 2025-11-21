@@ -19,7 +19,7 @@ from keyword import iskeyword
 import re
 from typing import Any, IO
 
-__version__ = "0.3.0.dev1"
+__version__ = "0.3.0"
 __author__ = "John Thorvald Wodder II"
 __author_email__ = "entry-points-txt@varonathe.org"
 __license__ = "MIT"

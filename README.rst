@@ -47,9 +47,9 @@ API
 
 .. code:: python
 
-    class EntryPoint(NamedTuple)
+    class EntryPoint
 
-A representation of an entry point as a namedtuple.  Instances have the
+A representation of an entry point as a dataclass.  Instances have the
 following attributes and methods:
 
 ``group: str``
@@ -61,11 +61,11 @@ following attributes and methods:
 ``module: str``
    The module portion of the attribute reference (the part before the colon)
 
-``attr: Optional[str]``
+``attr: str | None``
    The attribute/object portion of the attribute reference (the part after the
    colon), or ``None`` if not specified
 
-``extras: Tuple[str, ...]``
+``extras: tuple[str, ...]``
    Extras required for the entry point
 
 ``load() -> Any``
@@ -81,7 +81,7 @@ following attributes and methods:
 
 .. code:: python
 
-    EntryPointSet = Dict[str, Dict[str, EntryPoint]]
+    EntryPointSet = dict[str, dict[str, EntryPoint]]
 
 An alias for the return type of ``load()`` & ``loads()`` and the argument type
 of ``dump()`` & ``dumps()``.  Entry points are organized into a ``dict`` that

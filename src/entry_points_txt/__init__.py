@@ -40,7 +40,7 @@ __all__ = [
 
 @dataclass
 class EntryPoint:
-    """A representation of an entry point as a namedtuple."""
+    """A representation of an entry point as a dataclass"""
 
     #: The name of the entry point group (e.g., ``"console_scripts"``)
     group: str
